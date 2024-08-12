@@ -1,0 +1,39 @@
+spring:
+  application:
+    name:
+  datasource:
+    url:
+    username:
+    password:
+  jpa:
+    show-sql:
+  flyway:
+    enabled:
+    baseline-on-migrate:
+api:
+  prefix:
+jwt:
+  secret:
+  refresh-secret:
+  expiration:
+  refresh-expiration:
+roles:
+  default:
+mail:
+  smtp:
+    auth:
+    host:
+    port:
+    username:
+    password:
+    starttls:
+      enable:
+scheduler:
+  persons:
+    deleteUnverifiedUsers:
+    daysBeforeDeletion:
+code:
+  expiration:
+  resend-minutes:
+server:
+  port:
