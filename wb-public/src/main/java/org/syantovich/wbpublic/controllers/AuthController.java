@@ -1,6 +1,8 @@
 package org.syantovich.wbpublic.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.syantovich.wbpublic.dto.AuthResponseDto;
 import org.syantovich.wbpublic.dto.LoginDto;
@@ -33,5 +35,11 @@ public class AuthController {
     @PostMapping("/logout")
     public void logout(@RequestHeader(name = "Authorization") String accessToken) {
         tokenService.invalidate(accessToken);
+    }
+
+    @GetMapping("/me")
+    public AuthResponseDto getMe(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authService.getMe(authentication.getName());
     }
 }

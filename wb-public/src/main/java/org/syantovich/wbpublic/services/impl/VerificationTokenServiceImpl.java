@@ -34,14 +34,24 @@ public class VerificationTokenServiceImpl implements VerificationCodeService {
     @Value("${code.resend-minutes}")
     private int resendMinutes;
 
+    @Value("${code.length}")
+    private int codeLength;
+
     public String generateCode() {
         Random random = new Random();
-        int code = 10000000 + random.nextInt(90000000);
-        return String.valueOf(code);
+        StringBuilder code = new StringBuilder(codeLength);
+        for (int i = 0; i < codeLength; i++) {
+            code.append(random.nextInt(10)); // Генерируем случайное число от 0 до 9
+        }
+        return code.toString();
     }
 
     @Transactional
     public boolean sendCode(PersonEntity person) {
+        if (person.getIsVerified()) {
+            throw new IllegalArgumentException("User is already verified");
+        }
+
         Optional<VerificationCodeEntity> lastCode = verificationTokenRepository.findLatestByPersonId(person.getId());
 
         //логика по проверке времени отправки кода
@@ -63,7 +73,7 @@ public class VerificationTokenServiceImpl implements VerificationCodeService {
         verificationTokenEntity.setPerson(person);
         verificationTokenRepository.save(verificationTokenEntity);
 
-        boolean isSent = messageSender.send(person.getEmail(), "Your 8-digit code", "Your code is: " + code);
+        boolean isSent = messageSender.send(person.getEmail(), "Your " + codeLength + "-digit code", "Your code is: " + code);
 
         if (!isSent) {
             throw new CodeSendingException("Failed to send verification code to " + person.getEmail());

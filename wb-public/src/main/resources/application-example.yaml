@@ -35,5 +35,6 @@ scheduler:
 code:
   expiration:
   resend-minutes:
+  length:
 server:
   port:

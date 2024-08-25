@@ -2,6 +2,7 @@ package org.syantovich.wbpublic.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.syantovich.wbpublic.domain.AccessToken;
@@ -10,6 +11,7 @@ import org.syantovich.wbpublic.dto.*;
 import org.syantovich.wbpublic.mappers.PersonMapper;
 import org.syantovich.wbpublic.repository.PersonRepository;
 import org.syantovich.wbpublic.services.AuthService;
+import org.syantovich.wbpublic.services.PersonService;
 import org.syantovich.wbpublic.services.TokenService;
 
 import java.util.Arrays;
@@ -20,6 +22,7 @@ public class AuthServiceImpl implements AuthService {
     final PersonRepository personRepository;
     final PersonMapper personMapper;
     final TokenService tokenService;
+    final PersonService personService;
     final PasswordEncoder passwordEncoder;
 
     @Value("${roles.default}")
@@ -58,5 +61,12 @@ public class AuthServiceImpl implements AuthService {
         RefreshToken refreshToken = tokenService.createRefreshToken(personEntity);
         AccessToken token = tokenService.createToken(personEntity, refreshToken);
         return new AuthResponseDto(token.getToken(), refreshToken.getToken(), personDto);
+    }
+
+    public AuthResponseDto getMe(String username) {
+        var personEntity = personRepository.findByEmail(username)
+                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+        var personDto = personMapper.toDto(personEntity);
+        return new AuthResponseDto(null,null, personDto);
     }
 }

@@ -8,4 +8,6 @@ public interface AuthService {
     AuthResponseDto registerPerson(RegisterDto registerDto);
 
     AuthResponseDto login(LoginDto loginDto);
+
+    AuthResponseDto getMe(String username);
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.syantovich.wbpublic.errors.InvalidTokenException;
+import org.syantovich.wbpublic.services.TokenService;
 import org.syantovich.wbpublic.services.impl.TokenServiceImpl;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class TokenAuthFilter extends OncePerRequestFilter {
-    private final TokenServiceImpl tokenService;
+    private final TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
