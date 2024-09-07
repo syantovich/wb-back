@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: Wildberries Public
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wb-public
+    username: postgres
+    password: root
+  jpa:
+    show-sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+api:
+  prefix: api/v1
+jwt:
+  secret: dQdyQr{wk5tX5WRjj6FH9lJ8HJNVtKM@gPDtmCJt0U$@A3xH8QXG~s15pptjN|yJ{~e{HKb}oALxomJttNifyG8#A
+  refresh-secret: YIqYxygZVVh7yr?lEk0al}ki2%r4R53}?TFax8Oqg4f3K~db5c}9SHCQP~wlY~Ldn{UVM{1usW95hP|?uS?
+  expiration: 86400000 # 1 day
+  refresh-expiration: 2592000000 # 30 days
+roles:
+  default: ROLE_USER
+mail:
+  smtp:
+    auth: true
+    host: smtp.gmail.com
+    port: 587
+    username: "l9xama2013ma@gmail.com"
+    password: "fplb merz tzhi kwws"
+    starttls:
+      enable: true
+scheduler:
+  persons:
+    deleteUnverifiedUsers: true
+    daysBeforeDeletion: 3
+code:
+  expiration: 120000
+  resend-minutes: 2
+  length: 6
+server:
+  port: 3000
